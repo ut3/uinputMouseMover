@@ -48,36 +48,36 @@ clean:
 #include <stdlib.h>
 
 #define CHECK(x) { \
-   	int rv = 0; \
-	errno = 0; \
-	do { rv = (x); } while(0); \
-	if (0 != errno || rv < 0) { \
-		printf("%s: %s (errno=%d, rv=%d)\n",#x, strerror(errno), errno, rv); \
-	   	exit(errno); \
-   	}\
+   int rv = 0; \
+   errno = 0; \
+   do { rv = (x); } while(0); \
+   if (0 != errno || rv < 0) { \
+      printf("%s: %s (errno=%d, rv=%d)\n",#x, strerror(errno), errno, rv); \
+      exit(errno); \
+   }\
 }
 
 static int g_fd; 
 
 void emit(int type, int code, int val)
 {
-	struct input_event ie;
-
-	ie.type = type;
-	ie.code = code;
-	ie.value = val;
-
-	ie.time.tv_sec = 0;
-	ie.time.tv_usec = 0;
-
-	CHECK(write(g_fd, &ie, sizeof(ie)));
+   struct input_event ie;
+   
+   ie.type = type;
+   ie.code = code;
+   ie.value = val;
+   
+   ie.time.tv_sec = 0;
+   ie.time.tv_usec = 0;
+   
+   CHECK(write(g_fd, &ie, sizeof(ie)));
 }
 
 void cleanup(int sig) {
-	printf("Cleanup fd %d\n", g_fd); 
-	ioctl(g_fd, UI_DEV_DESTROY);
-   	close(g_fd);
-	exit(sig);
+   printf("Cleanup fd %d\n", g_fd); 
+   ioctl(g_fd, UI_DEV_DESTROY);
+   close(g_fd);
+   exit(sig);
 }
 
 void handler(int sig) { cleanup(sig); }
@@ -120,13 +120,13 @@ int main(void)
       emit(EV_REL, REL_X, flip ? -10 : 10);
       emit(EV_REL, REL_Y, flip ? -10 : 10);
       emit(EV_SYN, SYN_REPORT, 0);
-
-	  emit(EV_KEY, BTN_LEFT, 1);
+      
+      emit(EV_KEY, BTN_LEFT, 1);
       emit(EV_SYN, SYN_REPORT, 0);
-	  usleep(1000);
-	  emit(EV_KEY, BTN_LEFT, 0);
+      usleep(1000);
+      emit(EV_KEY, BTN_LEFT, 0);
       emit(EV_SYN, SYN_REPORT, 0);
-	  flip = flip ? 0 : 1;
+      flip = flip ? 0 : 1;
       sleep(2);
    }
 
