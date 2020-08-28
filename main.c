@@ -11,8 +11,8 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * Jitter your Wayland mouse cursor ever second using libuinput 
- * device. Adapted from:
+ * Jitter your Wayland mouse cursor every second using /dev/uinput. 
+ * Adapted from:
  * https://www.kernel.org/doc/Documentation/input/uinput.rst
  */
 
