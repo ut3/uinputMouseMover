@@ -47,15 +47,15 @@ clean:
 #include <errno.h>
 #include <stdlib.h>
 
-#define CHECK(x) { \
+#define CHECK(x) do { \
    int rv = 0; \
    errno = 0; \
-   do { rv = (x); } while(0); \
+   rv = (x); \
    if (0 != errno || rv < 0) { \
       printf("%s: %s (errno=%d, rv=%d)\n",#x, strerror(errno), errno, rv); \
       exit(errno); \
    }\
-}
+} while(0)
 
 static int g_fd; 
 
